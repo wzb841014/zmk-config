@@ -1,10 +1,24 @@
-name: Build ZMK Firmware
+name: Build
 
 on:
   push:
-    branches: [main]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    runs-on: ubuntu-latest
+    container: zmkfirmware/zmk-build-arm:4.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: |
+          west init -l app
+          west update
+          west build app -p -b nice_nano_v2 -- -DSHIELD="corne"
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: build/zephyr/*.uf2
