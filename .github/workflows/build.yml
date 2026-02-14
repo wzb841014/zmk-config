@@ -7,29 +7,4 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install west
-        run: |
-          pip install west
-
-      - name: Build
-        run: |
-          west init -l app
-          west update
-          west build -d build -p -b nice_nano_v2 -- -DSHIELD=corne
-
-      - name: Upload firmware
-        uses: actions/upload-artifact@v4
-        with:
-          name: zmk-firmware
-          path: build/zephyr/*.uf2
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v4
