@@ -1,5 +1,0 @@
-# Build configuration for ZMK
----
-build:
-  board: nice_nano_v2
-  shield: corne
